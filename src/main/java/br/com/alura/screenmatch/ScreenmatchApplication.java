@@ -14,12 +14,12 @@ public class ScreenmatchApplication implements CommandLineRunner {
 		SpringApplication.run(ScreenmatchApplication.class, args);
 	}
 
-	@Autowired
+	@Autowired // injetando dependência na classe que o Spring administra.
 	private SerieRepository repository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal(repository);
+		Principal principal = new Principal(repository);// injetando dependência na classe que o Spring administra.
 		principal.exibeMenu();
 	}
 }

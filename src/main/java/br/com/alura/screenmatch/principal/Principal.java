@@ -79,7 +79,7 @@ public class Principal {
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
-        Serie serie = new Serie(dados);
+        Serie serie = new Serie(dados);// O Repository é sobre Serie.
         //dadosSeries.add(dados);
         repository.save(serie);
         System.out.println(dados);
