@@ -67,10 +67,11 @@ public class Principal {
 
     private void listarSeriesBuscadas() {
         System.out.println("Saida 3");
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                .map(d -> new Serie(d))
-                .collect(Collectors.toList());
+        List<Serie> series = repository.findAll();
+
+//        series = dadosSeries.stream() // Quando não pegava do Postgre e sim de uma lista local.
+//                .map(d -> new Serie(d))
+//                .collect(Collectors.toList());
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero));
         series.forEach(System.out::println);
