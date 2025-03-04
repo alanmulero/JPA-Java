@@ -22,7 +22,10 @@ public class Serie {
     private String poster;
     private String sinopse;
     private String aventura;
-    @Transient// não será persistido no banco de dados aida.
+    
+    
+   // @Transient// não será persistido no banco de dados aida.
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(DadosSerie dadosSerie){

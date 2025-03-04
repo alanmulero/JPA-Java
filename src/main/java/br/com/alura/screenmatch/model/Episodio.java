@@ -3,77 +3,113 @@ package br.com.alura.screenmatch.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "episodios")
 public class Episodio {
-    private Integer temporada;
-    private String titulo;
-    private Integer numeroEpisodio;
-    private Double avaliacao;
-    private LocalDate dataLancamento;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private Integer temporada;
+	private String titulo;
+	private Integer numeroEpisodio;
+	private Double avaliacao;
+	private LocalDate dataLancamento;
+	
+	@ManyToOne
+	private Serie serie;
+	
+	
+	
+	public Episodio() {
+	}
 
-    public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
-        this.temporada = numeroTemporada;
-        this.titulo = dadosEpisodio.titulo();
-        this.numeroEpisodio = dadosEpisodio.numero();
+	public Serie getSerie() {
+		return serie;
+	}
 
-        try {
-            this.avaliacao = Double.valueOf(dadosEpisodio.avaliacao());
-        } catch (NumberFormatException ex) {
-            this.avaliacao = 0.0;
-        }
+	public void setSerie(Serie serie) {
+		this.serie = serie;
+	}
 
-        try {
-            this.dataLancamento = LocalDate.parse(dadosEpisodio.dataLancamento());
-        } catch (DateTimeParseException ex) {
-            this.dataLancamento = null;
-        }
-    }
+	public Episodio(Integer numeroTemporada, DadosEpisodio dadosEpisodio) {
+		this.temporada = numeroTemporada;
+		this.titulo = dadosEpisodio.titulo();
+		this.numeroEpisodio = dadosEpisodio.numero();
 
-    public Integer getTemporada() {
-        return temporada;
-    }
+		try {
+			this.avaliacao = Double.valueOf(dadosEpisodio.avaliacao());
+		} catch (NumberFormatException ex) {
+			this.avaliacao = 0.0;
+		}
 
-    public void setTemporada(Integer temporada) {
-        this.temporada = temporada;
-    }
+		try {
+			this.dataLancamento = LocalDate.parse(dadosEpisodio.dataLancamento());
+		} catch (DateTimeParseException ex) {
+			this.dataLancamento = null;
+		}
+	}
 
-    public String getTitulo() {
-        return titulo;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Integer getNumeroEpisodio() {
-        return numeroEpisodio;
-    }
 
-    public void setNumeroEpisodio(Integer numeroEpisodio) {
-        this.numeroEpisodio = numeroEpisodio;
-    }
 
-    public Double getAvaliacao() {
-        return avaliacao;
-    }
+	public Integer getTemporada() {
+		return temporada;
+	}
 
-    public void setAvaliacao(Double avaliacao) {
-        this.avaliacao = avaliacao;
-    }
+	public void setTemporada(Integer temporada) {
+		this.temporada = temporada;
+	}
 
-    public LocalDate getDataLancamento() {
-        return dataLancamento;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public void setDataLancamento(LocalDate dataLancamento) {
-        this.dataLancamento = dataLancamento;
-    }
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-    @Override
-    public String toString() {
-        return "temporada=" + temporada +
-                ", titulo='" + titulo + '\'' +
-                ", numeroEpisodio=" + numeroEpisodio +
-                ", avaliacao=" + avaliacao +
-                ", dataLancamento=" + dataLancamento ;
-    }
+	public Integer getNumeroEpisodio() {
+		return numeroEpisodio;
+	}
+
+	public void setNumeroEpisodio(Integer numeroEpisodio) {
+		this.numeroEpisodio = numeroEpisodio;
+	}
+
+	public Double getAvaliacao() {
+		return avaliacao;
+	}
+
+	public void setAvaliacao(Double avaliacao) {
+		this.avaliacao = avaliacao;
+	}
+
+	public LocalDate getDataLancamento() {
+		return dataLancamento;
+	}
+
+	public void setDataLancamento(LocalDate dataLancamento) {
+		this.dataLancamento = dataLancamento;
+	}
+
+	@Override
+	public String toString() {
+		return "temporada=" + temporada + ", titulo='" + titulo + '\'' + ", numeroEpisodio=" + numeroEpisodio
+				+ ", avaliacao=" + avaliacao + ", dataLancamento=" + dataLancamento;
+	}
 }
