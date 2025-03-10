@@ -38,6 +38,7 @@ public class Principal {
 					1 - Buscar séries
 					2 - Buscar episódios
 					3 - Imprimir lista local
+					4 - Buscar Series por titulo
 					0 - Sair
 					""";
 
@@ -55,12 +56,28 @@ public class Principal {
 			case 3:
 				listarSeriesBuscadas();
 				break;
+				case 4:
+					buscarSeriePorTitulo();
+					break;
 			case 0:
 				System.out.println("Saindo...");
 				break;
 			default:
 				System.out.println("Opção inválida");
 			}
+		}
+	}
+
+	private void buscarSeriePorTitulo() {
+		listarSeriesBuscadas();
+		System.out.println("Digite o nome do serie para busca no Banco de dados com serieRepository: ");
+		var nomeSerie = leitura.nextLine();
+		Optional<Serie> serie = repository.findByTituloContainingIgnoreCase(nomeSerie);
+		if (serie.isPresent()) {
+			System.out.println("Apresentando dados da serie: " + serie.get());
+
+		}else {
+			System.out.println("Serie não encontrada.");
 		}
 	}
 
@@ -96,6 +113,8 @@ public class Principal {
 		// DadosSerie dadosSerie = getDadosSerie();
 		// Listando series no banco de dados
 		listarSeriesBuscadas();
+		// Todo metodo abaixo poderia ser substituido por:
+		//  Optional<Serie>  findByTituloContainingIgnoreCase(String nomeSerie);
 		System.out.println("Digite o nome da série para busca no banco de dados");
 		var nomeSerie = leitura.nextLine();
 		Optional<Serie> serie = series.stream()
