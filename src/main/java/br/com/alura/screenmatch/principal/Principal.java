@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch.principal;
 
+import br.com.alura.screenmatch.model.Categoria;
 import br.com.alura.screenmatch.model.DadosSerie;
 import br.com.alura.screenmatch.model.DadosTemporada;
 import br.com.alura.screenmatch.model.Episodio;
@@ -24,7 +25,7 @@ public class Principal {
 	private SerieRepository repository;
 	private List<Serie> series = new ArrayList<>();
 
-	// criando lista para guardar DadosSerie
+	// criando lista para guardar DadosSerie.
 	private List<DadosSerie> dadosSeries = new ArrayList<>();
 
 	public Principal(SerieRepository repository) {
@@ -40,6 +41,8 @@ public class Principal {
 					3 - Imprimir lista local
 					4 - Buscar Series por titulo
 					5 - Buscar Series pelo nome do Ator
+					6 - Top 5 Séries
+					7 - Buscar séries pôr categoria
 					0 - Sair
 					""";
 
@@ -63,13 +66,35 @@ public class Principal {
 			case 5:
 				buscarSeriePorAtor();
 				break;
+			case 6:
+				buscarTop5Series();
+				break;
+			case 7:
+				buscarSeriesPorCategoria();
+				break;
 			case 0:
 				System.out.println("Saindo...");
 				break;
+
 			default:
 				System.out.println("Opção inválida");
 			}
 		}
+	}
+
+	private void buscarSeriesPorCategoria() {
+		System.out.println("Deseja buscar series de que categoria/genero? ");
+		var nomeGenero = leitura.nextLine();
+		Categoria categoria = Categoria.fromPortugues(nomeGenero);// Atenção aqui, pegando Categoria
+		List<Serie>  seriesPorCategoria = repository.findByGenero(categoria);
+		System.out.println("Series por categoria/genero: "+ nomeGenero);
+		seriesPorCategoria.forEach(System.out::println);
+	}
+
+	private void buscarTop5Series() {
+		List<Serie> seriesTop = repository.findTop5ByOrderByAvaliacaoDesc();
+		seriesTop.forEach(s -> System.out.println(s.getTitulo() + "Avaliação: " + s.getAvaliacao()));
+
 	}
 
 	private void buscarSeriePorAtor() {
@@ -78,9 +103,11 @@ public class Principal {
 		var nomeAtor = leitura.nextLine();
 		System.out.println("Informe a nota da avaliação minima que vc deseja: ");
 		var avaliacao = leitura.nextDouble();
-		List<Serie> seriesEncontradas =repository.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor,avaliacao);
+		List<Serie> seriesEncontradas = repository
+				.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor, avaliacao);
 		System.out.println("Nome Ator");
-		seriesEncontradas.forEach(s -> System.out.println(s.getTitulo() +"=> "+ s.getAtores()+ " "+ s.getAvaliacao() ));
+		seriesEncontradas
+				.forEach(s -> System.out.println(s.getTitulo() + "=> " + s.getAtores() + " " + s.getAvaliacao()));
 
 	}
 
